@@ -1,0 +1,19 @@
+{
+  "name": "backend0",
+  "version": "1.0.0",
+  "description": "API Movie Ticket Booking App",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "MTBA"
+  ],
+  "author": "AnhHai",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
