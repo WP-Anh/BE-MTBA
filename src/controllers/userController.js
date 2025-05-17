@@ -8,7 +8,8 @@ export const register = async (req, res) => {
     if (!isValidEmail(email)) {
       return res.status(400).json({ error: "Email không hợp lệ" });
     }
-    if (isEmailExist(email)) {
+    if (await isEmailExist(email)) {
+      console.log(isEmailExist(email));
       return res.status(400).json({ error: "Email đã tồn tại" });
     }
     const user = new User({ username, email, password });
@@ -147,8 +148,9 @@ const isValidEmail = (email) => {
   return regex.test(email);
 };
 
-const isEmailExist = async (email) => {
-  return await User.exists({ email: email });
+const isEmailExist = async (e) => {
+  const exist = await User.exists({ email: e });
+  return Boolean(exist);
 };
 
 const isValidPhone = (phone) => {

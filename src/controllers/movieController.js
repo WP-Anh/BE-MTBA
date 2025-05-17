@@ -11,13 +11,16 @@ export const addNewMovie = async (req, res) => {
     const {
       title,
       description,
-      director,
-      genre,
+      releaseDate,
       duration,
-      rating,
-      release_date,
-      poster,
+      genre,
+      director,
+      cast,
+      posterUrl,
+      trailerUrl,
       img,
+      rating,
+      price,
     } = req.body;
 
     if (!title) {
@@ -27,13 +30,16 @@ export const addNewMovie = async (req, res) => {
     const movie = new Movie({
       title,
       description: description || "",
-      director: director || "",
-      genre: genre || "",
+      releaseDate: releaseDate || "",
       duration: duration || "",
-      rating: rating || "",
-      release_date: release_date || "",
-      poster: poster || "",
+      genre: genre || "",
+      director: director || "",
+      cast: cast || [],
+      posterUrl: posterUrl || "",
+      trailerUrl: trailerUrl || "",
       img: img || "",
+      rating: rating || "",
+      price: price || "",
     });
 
     await movie.save();
@@ -43,7 +49,7 @@ export const addNewMovie = async (req, res) => {
   }
 };
 
-export const getMovie = async (req, res) => {
+export const getAllMovie = async (req, res) => {
   try {
     // if (req.user.role !== "admin") {
     //   return res.status(403).json({
@@ -72,6 +78,21 @@ export const getMovie = async (req, res) => {
   }
 };
 
+export const getMovie = async (req, res) => {
+  try {
+    const movieID = req.params.id;
+    const movie = await Movie.findById(movieID);
+
+    if (movie == null) {
+      return res.status(404).json({ error: "Phim không tồn tại" });
+    }
+
+    res.status(200).json({ movie });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const updateMovie = async (req, res) => {
   try {
     // if (req.user.role !== "admin") {
@@ -92,24 +113,30 @@ export const updateMovie = async (req, res) => {
     const {
       title,
       description,
-      director,
-      genre,
+      releaseDate,
       duration,
-      rating,
-      release_date,
-      poster,
+      genre,
+      director,
+      cast,
+      posterUrl,
+      trailerUrl,
       img,
+      rating,
+      price,
     } = req.body;
 
     if (title) movie.title = title;
     if (description) movie.description = description;
-    if (director) movie.director = director;
-    if (genre) movie.genre = genre;
+    if (releaseDate) movie.releaseDate = releaseDate;
     if (duration) movie.duration = duration;
-    if (rating) movie.rating = rating;
-    if (release_date) movie.release_date = release_date;
-    if (poster) movie.poster = poster;
+    if (genre) movie.genre = genre;
+    if (director) movie.director = director;
+    if (cast) movie.cast = cast;
+    if (posterUrl) movie.posterUrl = posterUrl;
+    if (trailerUrl) movie.trailerUrl = trailerUrl;
     if (img) movie.img = img;
+    if (rating) movie.rating = rating;
+    if (price) movie.price = price;
 
     await movie.save();
 
