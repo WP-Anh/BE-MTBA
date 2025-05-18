@@ -9,7 +9,7 @@ export const addScreen = async (req, res) => {
     //     .json({ error: "Bạn không có quyền thực hiện hành động này" });
     // }
 
-    const { cinemaID, roomNo, seats } = req.body;
+    const { cinemaID, roomNo, seats, capacity } = req.body;
 
     if (cinemaID == null || roomNo == null) {
       return res
@@ -42,6 +42,7 @@ export const addScreen = async (req, res) => {
       cinemaID,
       roomNo,
       seats: Array.isArray(seats) ? seats : [],
+      capacity: capacity || 0,
     });
 
     await screen.save();
@@ -100,7 +101,7 @@ export const updateScreen = async (req, res) => {
       return res.status(404).json({ error: "Phòng chiếu không tồn tại" });
     }
 
-    const { cinemaID, roomNo, seats } = req.body;
+    const { cinemaID, roomNo, seats, capacity } = req.body;
 
     // 2. Kiểm tra cinemaID nếu có cập nhật
     if (cinemaID) {
@@ -132,6 +133,7 @@ export const updateScreen = async (req, res) => {
       screen.roomNo = roomNo;
     }
 
+    if (capacity) screen.capacity = capacity;
     if (seats) screen.seats = seats;
 
     await screen.save();

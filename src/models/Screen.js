@@ -7,7 +7,8 @@ const ScreenSchema = new mongoose.Schema({
     required: true,
   },
   roomNo: { type: Number, require: true },
-  seats: [Number],
+  seats: [String],
+  capacity: Number,
 });
 
 const ScreenModel = mongoose.model("Screen", ScreenSchema);

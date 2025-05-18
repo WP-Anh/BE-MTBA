@@ -69,8 +69,8 @@ export const getShow = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      count: screen.length,
-      data: screen,
+      count: show.length,
+      data: show,
     });
   } catch (error) {
     res.status(500).json({
